@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/data/named_color.dart';
+import 'package:hello_world_colors/screens/hello_color_screen.dart';
 
 class NamedColorGridView extends StatelessWidget {
   final NamedColorList namedColorList;
@@ -13,12 +14,14 @@ class NamedColorGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    print(screenSize);
 
     return GridView.builder(
       itemCount: namedColorList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // crossAxisCount: screenSize.width ~/ 180,
-        crossAxisCount: screenSize.width ~/ 120,
+        // crossAxisCount: screenSize.width ~/ 135,
+        crossAxisCount: MediaQuery.of(context).orientation == Orientation.portrait ? 3 : 4,
         crossAxisSpacing: 6.0,
         mainAxisSpacing: 6.0,
         // crossAxisCount: 3,
@@ -42,7 +45,7 @@ class NamedColorGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Brightness brightness = ThemeData.estimateBrightnessForColor(namedColor.color);
-    // final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
     // final Color textColor = brightness == Brightness.light ? ThemeData.dark().textTheme.caption.color : Colors.white;
     // final TextStyle subtitleStyle = Theme.of(context).textTheme.bodyText1.copyWith(color: textColor);
     final TextTheme textTheme =
@@ -61,19 +64,24 @@ class NamedColorGridTile extends StatelessWidget {
         // backgroundColor: Colors.grey[200],
         // title: Text(namedColor.name),
         // title: Text(namedColor.name, style: textTheme.subtitle1),
+        // title: Text(namedColor.name, style: textTheme.caption),
         title: Text(
           namedColor.name,
-          style: Theme.of(context).textTheme.caption.copyWith(
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                offset: Offset(1.0, 1.0),
-                blurRadius: 2.0,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-            ],
-          ),
+          style: Theme.of(context).textTheme.caption.copyWith(color: textColor),
         ),
+        // title: Text(
+        //   namedColor.name,
+        //   style: Theme.of(context).textTheme.caption.copyWith(
+        //     color: Colors.white,
+        //     shadows: [
+        //       Shadow(
+        //         offset: Offset(1.0, 1.0),
+        //         blurRadius: 2.0,
+        //         color: Color.fromARGB(255, 0, 0, 0),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         // title: Text(namedColor.name, style: TextStyle(color: textColor)),
         // subtitle: Text(namedColor.toHexTriplet()),
         // subtitle: Text(namedColor.toHexTriplet(), style: textTheme.caption),
@@ -88,6 +96,11 @@ class NamedColorGridTile extends StatelessWidget {
             // AppSettings().color.value = blackAlt.color;
             // AppSettings().colorName.value = blackAlt.name;
             // Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => HelloColorScreen(namedColor: namedColor)),
+            );
           },
         ),
         color: namedColor.color,

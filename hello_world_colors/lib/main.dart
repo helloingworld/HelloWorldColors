@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Colors.white,
         primaryColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+
+        appBarTheme: AppBarTheme(elevation: 0.0),
       ),
       home: HomeScreen(),
     );
