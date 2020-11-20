@@ -19,6 +19,8 @@ class NamedColorGridView extends StatelessWidget {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // crossAxisCount: screenSize.width ~/ 180,
         crossAxisCount: screenSize.width ~/ 120,
+        crossAxisSpacing: 6.0,
+        mainAxisSpacing: 6.0,
         // crossAxisCount: 3,
         childAspectRatio: screenSize.width / screenSize.height,
       ),
@@ -54,29 +56,41 @@ class NamedColorGridTile extends StatelessWidget {
     //     : ThemeData.dark().textTheme.caption;
     // print('${namedColor.name} => $textColor');
 
-    return Card(
-      child: GridTile(
-        header: GridTileBar(
-          // title: Text(namedColor.name),
-          title: Text(namedColor.name, style: textTheme.subtitle1),
-          // title: Text(namedColor.name, style: TextStyle(color: textColor)),
-          // subtitle: Text(namedColor.toHexTriplet()),
-          // subtitle: Text(namedColor.toHexTriplet(), style: textTheme.caption),
-        ),
-        // footer: GridTileBar(
-        //   leading: const Icon(Icons.brightness_3, size: 16.0),
-        //   subtitle: Text(namedColor.color.computeLuminance().toStringAsFixed(4)),
-        // ),
-        child: Material(
-          child: InkWell(
-            onTap: () {
-              // AppSettings().color.value = blackAlt.color;
-              // AppSettings().colorName.value = blackAlt.name;
-              // Navigator.pop(context);
-            },
+    return GridTile(
+      header: GridTileBar(
+        // backgroundColor: Colors.grey[200],
+        // title: Text(namedColor.name),
+        // title: Text(namedColor.name, style: textTheme.subtitle1),
+        title: Text(
+          namedColor.name,
+          style: Theme.of(context).textTheme.caption.copyWith(
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                offset: Offset(1.0, 1.0),
+                blurRadius: 2.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),
+            ],
           ),
-          color: namedColor.color,
         ),
+        // title: Text(namedColor.name, style: TextStyle(color: textColor)),
+        // subtitle: Text(namedColor.toHexTriplet()),
+        // subtitle: Text(namedColor.toHexTriplet(), style: textTheme.caption),
+      ),
+      // footer: GridTileBar(
+      //   leading: const Icon(Icons.brightness_3, size: 16.0),
+      //   subtitle: Text(namedColor.color.computeLuminance().toStringAsFixed(4)),
+      // ),
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            // AppSettings().color.value = blackAlt.color;
+            // AppSettings().colorName.value = blackAlt.name;
+            // Navigator.pop(context);
+          },
+        ),
+        color: namedColor.color,
       ),
     );
   }

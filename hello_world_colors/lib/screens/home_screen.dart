@@ -4,6 +4,7 @@ import 'package:hello_world_colors/data/all_24bit_colors.dart';
 import 'package:hello_world_colors/data/basic_color_terms.dart';
 import 'package:hello_world_colors/data/material_colors.dart';
 import 'package:hello_world_colors/data/named_color.dart';
+import 'package:hello_world_colors/data/web_color_list.dart';
 import 'package:hello_world_colors/widgets/app_drawer.dart';
 import 'package:hello_world_colors/widgets/named_color_grid_view.dart';
 
@@ -20,6 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
       switch (item) {
         case MainDrawerItem.basicColorTerms:
           namedColorList = BasicColorTermList();
+          break;
+        case MainDrawerItem.webColors:
+          namedColorList = WebColorList();
           break;
         case MainDrawerItem.materialColors:
           namedColorList = MaterialColorList();
