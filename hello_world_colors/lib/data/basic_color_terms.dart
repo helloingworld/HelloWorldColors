@@ -15,3 +15,4 @@ const List<NamedColor> basicColorTerms = [
   NamedColor('Purple', Color(0xFF800080)),
   NamedColor('Grey', Color(0xFF808080)),
 ];
+

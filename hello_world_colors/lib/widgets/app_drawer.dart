@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
 
-enum AppDrawerItem { basicColorTerms, webColors, materialColors, all24bitColors }
+enum MainDrawerItem { basicColorTerms, webColors, materialColors, all24bitColors }
+enum ExtraDrawerItem { settings }
 
 class AppDrawer extends StatelessWidget {
+  final void Function(MainDrawerItem value) onMainItemSelected;
 
-  final void Function(AppDrawerItem value) onSelected;
+  final void Function(ExtraDrawerItem value) onExtraItemSelected;
 
-  const AppDrawer({Key key, this.onSelected}) : super(key: key);
+  const AppDrawer({Key key, this.onMainItemSelected, this.onExtraItemSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          for (AppDrawerItem item in AppDrawerItem.values)
+          for (MainDrawerItem mainItem in MainDrawerItem.values)
             ListTile(
-              title: Text(AppStrings.drawerItems[item]),
-              // onTap: () => onSelected(item),
-              onTap: () => onSelected?.call(item),
+              title: Text(AppStrings.mainDrawerItems[mainItem]),
+              onTap: () => onMainItemSelected?.call(mainItem),
+            ),
+          Divider(),
+          for (ExtraDrawerItem extraItem in ExtraDrawerItem.values)
+            ListTile(
+              title: Text(AppStrings.extraDrawerItems[extraItem]),
+              onTap: () => onExtraItemSelected?.call(extraItem),
             ),
         ],
       ),
