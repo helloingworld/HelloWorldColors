@@ -17,7 +17,9 @@ class NamedColorGridView extends StatelessWidget {
     return GridView.builder(
       itemCount: namedColorList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        // crossAxisCount: screenSize.width ~/ 180,
+        crossAxisCount: screenSize.width ~/ 120,
+        // crossAxisCount: 3,
         childAspectRatio: screenSize.width / screenSize.height,
       ),
       itemBuilder: (BuildContext context, int index) =>
@@ -37,16 +39,34 @@ class NamedColorGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness = ThemeData.estimateBrightnessForColor(namedColor.color);
+    // final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    // final Color textColor = brightness == Brightness.light ? ThemeData.dark().textTheme.caption.color : Colors.white;
+    // final TextStyle subtitleStyle = Theme.of(context).textTheme.bodyText1.copyWith(color: textColor);
+    final TextTheme textTheme =
+        brightness == Brightness.light ? ThemeData.light().textTheme : ThemeData.dark().textTheme;
+
+    // final TextStyle titleStyle = brightness == Brightness.light
+    //     ? ThemeData.light().textTheme.subtitle1
+    //     : ThemeData.dark().textTheme.subtitle2;
+    // final TextStyle subtitleStyle = brightness == Brightness.light
+    //     ? ThemeData.light().textTheme.caption
+    //     : ThemeData.dark().textTheme.caption;
+    // print('${namedColor.name} => $textColor');
+
     return Card(
       child: GridTile(
         header: GridTileBar(
-          title: Text(namedColor.name),
-          subtitle: Text(namedColor.toHexTriplet()),
+          // title: Text(namedColor.name),
+          title: Text(namedColor.name, style: textTheme.subtitle1),
+          // title: Text(namedColor.name, style: TextStyle(color: textColor)),
+          // subtitle: Text(namedColor.toHexTriplet()),
+          // subtitle: Text(namedColor.toHexTriplet(), style: textTheme.caption),
         ),
-        footer: GridTileBar(
-          leading: const Icon(Icons.brightness_3, size: 16.0),
-          subtitle: Text(namedColor.color.computeLuminance().toStringAsFixed(4)),
-        ),
+        // footer: GridTileBar(
+        //   leading: const Icon(Icons.brightness_3, size: 16.0),
+        //   subtitle: Text(namedColor.color.computeLuminance().toStringAsFixed(4)),
+        // ),
         child: Material(
           child: InkWell(
             onTap: () {

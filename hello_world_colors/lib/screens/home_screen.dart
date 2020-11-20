@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
 import 'package:hello_world_colors/data/all_24bit_colors.dart';
+import 'package:hello_world_colors/data/basic_color_terms.dart';
 import 'package:hello_world_colors/data/material_colors.dart';
+import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/widgets/app_drawer.dart';
 import 'package:hello_world_colors/widgets/named_color_grid_view.dart';
 
@@ -11,16 +13,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  MainDrawerItem _mainDrawerItem;
+  NamedColorList namedColorList = BasicColorTermList();
 
   void _onMainDrawerItemSelected(MainDrawerItem item) {
     setState(() {
-      _mainDrawerItem = item;
+      switch (item) {
+        case MainDrawerItem.basicColorTerms:
+          namedColorList = BasicColorTermList();
+          break;
+        case MainDrawerItem.materialColors:
+          namedColorList = MaterialColorList();
+          break;
+        case MainDrawerItem.all24bitColors:
+          namedColorList = All24BitColorList();
+          break;
+      }
     });
-    // switch (item) {
-    //   case MainDrawerItem.basicColorTerms:
-    //     break;
-    // }
+
+    // Close the drawer
+    Navigator.pop(context);
   }
 
   @override
@@ -37,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onMainItemSelected: _onMainDrawerItemSelected,
       ),
       body: NamedColorGridView(
-        namedColorList: All24BitColorList(),
+        namedColorList: namedColorList,
       ),
     );
   }

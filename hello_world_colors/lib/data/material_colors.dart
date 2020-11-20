@@ -29,7 +29,7 @@ class MaterialColorList implements NamedColorList {
     int shade = index % 10;
     shade = shade == 0 ? 50 : shade * 100;
 
-    return NamedColor('${primariesNames[primary]}[$shade]', primary[shade]);
+    return NamedColor('${primariesNames[primary]} $shade', primary[shade]);
   }
 
   @override

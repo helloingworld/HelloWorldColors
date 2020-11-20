@@ -4,7 +4,7 @@ class AppStrings {
   static const String appName = 'Hello World Colors';
 
   static const Map<MainDrawerItem, String> mainDrawerItems = {
-    MainDrawerItem.basicColorTerms: 'Color Terms',
+    MainDrawerItem.basicColorTerms: 'Basic Color Terms',
     MainDrawerItem.webColors: 'Web Colors',
     MainDrawerItem.materialColors: 'Material Colors',
     MainDrawerItem.all24bitColors: 'All 24-bit Colors',
