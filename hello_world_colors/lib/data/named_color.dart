@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world_colors/utils/utils.dart';
 
 class NamedColor {
   final String name;
   final Color color;
 
+  String toHexTriplet() => color.toHexTriplet();
+
   const NamedColor(this.name, this.color);
 }
 
-
 abstract class NamedColorList {
-
   /// The number of named colors in this list.
   int get length;
 
