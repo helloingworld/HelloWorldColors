@@ -45,6 +45,7 @@ class NamedColorGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Brightness brightness = ThemeData.estimateBrightnessForColor(namedColor.color);
+    // print(brightness);
     final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
     // final Color textColor = brightness == Brightness.light ? ThemeData.dark().textTheme.caption.color : Colors.white;
     // final TextStyle subtitleStyle = Theme.of(context).textTheme.bodyText1.copyWith(color: textColor);
