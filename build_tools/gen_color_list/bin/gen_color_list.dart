@@ -23,6 +23,7 @@ void convertDataFile(String fileName) {
 }
 
 void main(List<String> arguments) {
-  // print('Hello world!');
-  convertDataFile('web_colors');
+  convertDataFile('basic_color_term_list');
+  convertDataFile('web_color_list');
+  convertDataFile('material_color_list');
 }
