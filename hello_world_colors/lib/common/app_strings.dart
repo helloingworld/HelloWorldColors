@@ -1,13 +1,15 @@
+import 'package:hello_world_colors/data/color_list.dart';
 import 'package:hello_world_colors/widgets/app_drawer.dart';
 
 class AppStrings {
   static const String appName = 'Hello World Colors';
 
-  static const Map<MainDrawerItem, String> mainDrawerItems = <MainDrawerItem, String>{
-    MainDrawerItem.basicColorTerms: 'Basic Color Terms',
-    MainDrawerItem.webColors: 'Web Colors',
-    MainDrawerItem.materialColors: 'Material Colors',
-    MainDrawerItem.all24bitColors: 'All 24-bit Colors',
+  static const Map<ColorList, String> colorLists = <ColorList, String>{
+    ColorList.basicColorTerms: 'Basic Color Terms',
+    ColorList.webColors: 'Web Colors',
+    ColorList.materialColors: 'Material Colors',
+    ColorList.wikipediaListOfColors: 'Wikipedia\'s List Of Colors',
+    ColorList.trueColor: 'All True Colors',
   };
 
   static const Map<ExtraDrawerItem, String> extraDrawerItems = <ExtraDrawerItem, String>{

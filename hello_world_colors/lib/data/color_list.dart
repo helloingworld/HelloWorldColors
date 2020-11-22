@@ -1,0 +1,1 @@
+enum ColorList { basicColorTerms, webColors, materialColors, wikipediaListOfColors, trueColor }

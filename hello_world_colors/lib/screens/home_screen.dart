@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
 import 'package:hello_world_colors/data/basic_color_term_list.dart';
-import 'package:hello_world_colors/data/material_colors.dart';
+import 'package:hello_world_colors/data/color_list.dart';
+import 'package:hello_world_colors/data/material_color_list.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/data/web_color_list.dart';
 import 'package:hello_world_colors/data/wikipedia_list_of_colors_list.dart';
-import 'package:hello_world_colors/widgets/app_drawer.dart';
-import 'package:hello_world_colors/widgets/named_color_grid_view.dart';
+import 'package:hello_world_colors/screens/hello_color_screen.dart';
+import 'package:hello_world_colors/widgets/color_sliver_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,13 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // BasicColorTermList _basicColorTermList = BasicColorTermList();
-  // // WebColorList _webColorList = WebColorList();
-  // MaterialColorList _materialColorList = MaterialColorList();
-  // All24BitColorList _all24bitColorList = All24BitColorList();
-
-//  NamedColorList namedColorList = BasicColorTermList();
-
   // void _onMainDrawerItemSelected(MainDrawerItem item) {
   //   setState(() {
   //     switch (item) {
@@ -43,19 +37,17 @@ class _HomeScreenState extends State<HomeScreen> {
   //   Navigator.pop(context);
   // }
 
+  void _onItemSelected(NamedColor value) {
+    // print(value.name);
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) => HelloColorScreen(namedColor: value)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // MaterialColorList materialColorList = MaterialColorList();
-    // for (int i = 0; i < materialColorList.length; i++)
-    //   print('name: ${materialColorList[i].name}, color: ${materialColorList[i].color}');
-
-    // final SliverGridDelegateWithMaxCrossAxisExtent gridDelegate =
-    //     SliverGridDelegateWithMaxCrossAxisExtent(
-    //   maxCrossAxisExtent: 200.0,
-    // );
-
-    // namedColorList = MaterialColorList();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),
@@ -63,34 +55,32 @@ class _HomeScreenState extends State<HomeScreen> {
       // drawer: AppDrawer(
       //   onMainItemSelected: _onMainDrawerItemSelected,
       // ),
-      // body: NamedColorGridView(
-      //   namedColorList: namedColorList,
-      // ),
       body: CustomScrollView(
         slivers: <Widget>[
-          // SliverGrid(
-          //   gridDelegate: gridDelegate,
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) =>
-          //         NamedColorGridTile(namedColor: _basicColorTermList[index]),
-          //     childCount: _basicColorTermList.length,
-          //   ),
-          // ),
-
-          // SliverToBoxAdapter(
-          //   child: Text(AppStrings.mainDrawerItems[MainDrawerItem.basicColorTerms]),
-          // ),
-          _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.basicColorTerms]),
-          const ColorsSliverGrid(namedColorList: kBasicColorTermList),
-          _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.webColors]),
-          const ColorsSliverGrid(namedColorList: kWebColorList),
-          _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.materialColors]),
-          const ColorsSliverGrid(namedColorList: kMaterialColorList),
-
-          // _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.materialColors]),
-          const ColorsSliverGrid(namedColorList: kWikipediaListOfColorsList),
-          // _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.all24bitColors]),
-          // ColorsSliverGrid(namedColorList: _all24bitColorList),
+          _buildListTitle(AppStrings.colorLists[ColorList.basicColorTerms]),
+          NamedColorSliverGrid(
+            namedColorList: kBasicColorTermList,
+            onItemSelected: _onItemSelected,
+          ),
+          _buildListTitle(AppStrings.colorLists[ColorList.webColors]),
+          NamedColorSliverGrid(
+            namedColorList: kWebColorList,
+            onItemSelected: _onItemSelected,
+          ),
+          _buildListTitle(AppStrings.colorLists[ColorList.materialColors]),
+          NamedColorSliverGrid(
+            namedColorList: kMaterialColorList,
+            onItemSelected: _onItemSelected,
+          ),
+          _buildListTitle(AppStrings.colorLists[ColorList.wikipediaListOfColors]),
+          NamedColorSliverGrid(
+            namedColorList: kWikipediaListOfColorsList,
+            onItemSelected: _onItemSelected,
+          ),
+          _buildListTitle(AppStrings.colorLists[ColorList.trueColor]),
+          TrueColorSliverGrid(
+            onItemSelected: _onItemSelected,
+          ),
         ],
       ),
     );
@@ -106,35 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 45.0),
           textAlign: TextAlign.center,
         ),
-      ),
-    );
-  }
-}
-
-class ColorsSliverGrid extends StatelessWidget {
-  const ColorsSliverGrid({
-    Key key,
-    @required this.namedColorList,
-  })  : assert(namedColorList != null),
-        super(key: key);
-
-  final List<NamedColor> namedColorList;
-
-  @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        // maxCrossAxisExtent: 200.0,
-        maxCrossAxisExtent: 180.0,
-        crossAxisSpacing: 6.0,
-        mainAxisSpacing: 6.0,
-        childAspectRatio: screenSize.width / screenSize.height,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) => NamedColorGridTile(namedColor: namedColorList[index]),
-        childCount: namedColorList.length,
       ),
     );
   }

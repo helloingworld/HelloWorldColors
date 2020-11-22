@@ -18,7 +18,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           for (MainDrawerItem mainItem in MainDrawerItem.values)
             ListTile(
-              title: Text(AppStrings.mainDrawerItems[mainItem]),
+              title: Text(AppStrings.colorLists[mainItem]),
               onTap: () => onMainItemSelected?.call(mainItem),
             ),
           const Divider(),

@@ -10,12 +10,3 @@ class NamedColor {
 
   String toHexTriplet() => color.toHexTriplet();
 }
-
-abstract class NamedColorList {
-  /// The number of named colors in this list.
-  int get length;
-
-  /// Returns the object at the given [index] in the list
-  /// or throws a [RangeError] if [index] is out of bounds.
-  NamedColor operator [](int index);
-}
