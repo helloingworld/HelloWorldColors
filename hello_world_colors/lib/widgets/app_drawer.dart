@@ -5,11 +5,11 @@ enum MainDrawerItem { basicColorTerms, webColors, materialColors, all24bitColors
 enum ExtraDrawerItem { settings }
 
 class AppDrawer extends StatelessWidget {
+  const AppDrawer({Key key, this.onMainItemSelected, this.onExtraItemSelected}) : super(key: key);
+
   final void Function(MainDrawerItem value) onMainItemSelected;
 
   final void Function(ExtraDrawerItem value) onExtraItemSelected;
-
-  const AppDrawer({Key key, this.onMainItemSelected, this.onExtraItemSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class AppDrawer extends StatelessWidget {
               title: Text(AppStrings.mainDrawerItems[mainItem]),
               onTap: () => onMainItemSelected?.call(mainItem),
             ),
-          Divider(),
+          const Divider(),
           for (ExtraDrawerItem extraItem in ExtraDrawerItem.values)
             ListTile(
               title: Text(AppStrings.extraDrawerItems[extraItem]),

@@ -3,13 +3,13 @@ import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/screens/hello_color_screen.dart';
 
 class NamedColorGridView extends StatelessWidget {
-  final NamedColorList namedColorList;
-
   const NamedColorGridView({
     Key key,
     @required this.namedColorList,
   })  : assert(namedColorList != null),
         super(key: key);
+
+  final NamedColorList namedColorList;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,13 @@ class NamedColorGridView extends StatelessWidget {
 }
 
 class NamedColorGridTile extends StatelessWidget {
-  final NamedColor namedColor;
-
   const NamedColorGridTile({
     Key key,
     @required this.namedColor,
   })  : assert(namedColor != null),
         super(key: key);
+
+  final NamedColor namedColor;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class NamedColorGridTile extends StatelessWidget {
     final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
     // final Color textColor = brightness == Brightness.light ? ThemeData.dark().textTheme.caption.color : Colors.white;
     // final TextStyle subtitleStyle = Theme.of(context).textTheme.bodyText1.copyWith(color: textColor);
-    final TextTheme textTheme =
-        brightness == Brightness.light ? ThemeData.light().textTheme : ThemeData.dark().textTheme;
+    // final TextTheme textTheme =
+    //     brightness == Brightness.light ? ThemeData.light().textTheme : ThemeData.dark().textTheme;
 
     // final TextStyle titleStyle = brightness == Brightness.light
     //     ? ThemeData.light().textTheme.subtitle1

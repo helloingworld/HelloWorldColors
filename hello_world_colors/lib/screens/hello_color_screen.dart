@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 
 class HelloColorScreen extends StatelessWidget {
-  final NamedColor namedColor;
-
   const HelloColorScreen({
     Key key,
     @required this.namedColor,
   })  : assert(namedColor != null),
         super(key: key);
+
+  final NamedColor namedColor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +29,11 @@ class HelloColorScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             // Text('Hello World 2', style: textTheme.headline4),
             Text(
               'Hello, World!\nI\'m ${namedColor.name}',

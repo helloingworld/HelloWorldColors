@@ -3,14 +3,14 @@ import 'package:hello_world_colors/widgets/app_drawer.dart';
 class AppStrings {
   static const String appName = 'Hello World Colors';
 
-  static const Map<MainDrawerItem, String> mainDrawerItems = {
+  static const Map<MainDrawerItem, String> mainDrawerItems = <MainDrawerItem, String>{
     MainDrawerItem.basicColorTerms: 'Basic Color Terms',
     MainDrawerItem.webColors: 'Web Colors',
     MainDrawerItem.materialColors: 'Material Colors',
     MainDrawerItem.all24bitColors: 'All 24-bit Colors',
   };
 
-  static const Map<ExtraDrawerItem, String> extraDrawerItems = {
+  static const Map<ExtraDrawerItem, String> extraDrawerItems = <ExtraDrawerItem, String>{
     ExtraDrawerItem.settings: 'Settings',
   };
 

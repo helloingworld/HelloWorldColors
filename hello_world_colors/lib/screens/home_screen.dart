@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
-import 'package:hello_world_colors/data/all_24bit_colors.dart';
-import 'package:hello_world_colors/data/basic_color_terms.dart';
+import 'package:hello_world_colors/data/basic_color_term_list.dart';
 import 'package:hello_world_colors/data/material_colors.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/data/web_color_list.dart';
@@ -14,34 +13,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  BasicColorTermList _basicColorTermList = BasicColorTermList();
-  WebColorList _webColorList = WebColorList();
-  MaterialColorList _materialColorList = MaterialColorList();
-  All24BitColorList _all24bitColorList = All24BitColorList();
+  // BasicColorTermList _basicColorTermList = BasicColorTermList();
+  // // WebColorList _webColorList = WebColorList();
+  // MaterialColorList _materialColorList = MaterialColorList();
+  // All24BitColorList _all24bitColorList = All24BitColorList();
 
 //  NamedColorList namedColorList = BasicColorTermList();
 
-  void _onMainDrawerItemSelected(MainDrawerItem item) {
-    setState(() {
-      switch (item) {
-        case MainDrawerItem.basicColorTerms:
-          // namedColorList = BasicColorTermList();
-          break;
-        case MainDrawerItem.webColors:
-          // namedColorList = WebColorList();
-          break;
-        case MainDrawerItem.materialColors:
-          // namedColorList = MaterialColorList();
-          break;
-        case MainDrawerItem.all24bitColors:
-          // namedColorList = All24BitColorList();
-          break;
-      }
-    });
-
-    // Close the drawer
-    Navigator.pop(context);
-  }
+  // void _onMainDrawerItemSelected(MainDrawerItem item) {
+  //   setState(() {
+  //     switch (item) {
+  //       case MainDrawerItem.basicColorTerms:
+  //         // namedColorList = BasicColorTermList();
+  //         break;
+  //       case MainDrawerItem.webColors:
+  //         // namedColorList = WebColorList();
+  //         break;
+  //       case MainDrawerItem.materialColors:
+  //         // namedColorList = MaterialColorList();
+  //         break;
+  //       case MainDrawerItem.all24bitColors:
+  //         // namedColorList = All24BitColorList();
+  //         break;
+  //     }
+  //   });
+  //
+  //   // Close the drawer
+  //   Navigator.pop(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.appName),
+        title: const Text(AppStrings.appName),
       ),
       // drawer: AppDrawer(
       //   onMainItemSelected: _onMainDrawerItemSelected,
@@ -81,13 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
           //   child: Text(AppStrings.mainDrawerItems[MainDrawerItem.basicColorTerms]),
           // ),
           _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.basicColorTerms]),
-          ColorsSliverGrid(namedColorList: _basicColorTermList),
+          const ColorsSliverGrid(namedColorList: kBasicColorTermList),
           _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.webColors]),
-          ColorsSliverGrid(namedColorList: _webColorList),
+          const ColorsSliverGrid(namedColorList: kWebColorList),
           _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.materialColors]),
-          ColorsSliverGrid(namedColorList: _materialColorList),
-          _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.all24bitColors]),
-          ColorsSliverGrid(namedColorList: _all24bitColorList),
+          const ColorsSliverGrid(namedColorList: kMaterialColorList),
+          // _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.all24bitColors]),
+          // ColorsSliverGrid(namedColorList: _all24bitColorList),
         ],
       ),
     );
@@ -109,13 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class ColorsSliverGrid extends StatelessWidget {
-  final NamedColorList namedColorList;
-
   const ColorsSliverGrid({
     Key key,
     @required this.namedColorList,
   })  : assert(namedColorList != null),
         super(key: key);
+
+  final List<NamedColor> namedColorList;
 
   @override
   Widget build(BuildContext context) {
