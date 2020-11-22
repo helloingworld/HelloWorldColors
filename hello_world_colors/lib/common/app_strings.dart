@@ -9,7 +9,8 @@ class AppStrings {
     ColorList.webColors: 'Web Colors',
     ColorList.materialColors: 'Material Colors',
     ColorList.wikipediaListOfColors: 'Wikipedia\'s List Of Colors',
-    ColorList.trueColor: 'All True Colors',
+    // ColorList.trueColor: 'All True Colors',
+    ColorList.trueColor: 'Random True Colors',
   };
 
   static const Map<ExtraDrawerItem, String> extraDrawerItems = <ExtraDrawerItem, String>{
