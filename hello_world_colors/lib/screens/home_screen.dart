@@ -4,6 +4,7 @@ import 'package:hello_world_colors/data/basic_color_term_list.dart';
 import 'package:hello_world_colors/data/material_colors.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/data/web_color_list.dart';
+import 'package:hello_world_colors/data/wikipedia_list_of_colors_list.dart';
 import 'package:hello_world_colors/widgets/app_drawer.dart';
 import 'package:hello_world_colors/widgets/named_color_grid_view.dart';
 
@@ -85,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
           const ColorsSliverGrid(namedColorList: kWebColorList),
           _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.materialColors]),
           const ColorsSliverGrid(namedColorList: kMaterialColorList),
+
+          // _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.materialColors]),
+          const ColorsSliverGrid(namedColorList: kWikipediaListOfColorsList),
           // _buildListTitle(AppStrings.mainDrawerItems[MainDrawerItem.all24bitColors]),
           // ColorsSliverGrid(namedColorList: _all24bitColorList),
         ],

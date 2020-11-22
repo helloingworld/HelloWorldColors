@@ -17,7 +17,7 @@ void convertDataFile(String fileName) {
   final YamlList yamlList = loadYaml(data);
   final List<String> dartList = yamlList
       .map((color) =>
-          'NamedColor(name: \'${color[0]}\', color: Color(${toHexColorString(color[1] as int)}), isDark: ${isDarkColor(BaldColor(color[1]))})')
+          'NamedColor(name: \'${color[0].replaceAll('\'', '\\\'')}\', color: Color(${toHexColorString(color[1] as int)}), isDark: ${isDarkColor(BaldColor(color[1]))})')
       .toList();
   File('output\\$fileName.dart.temp').writeAsStringSync(dartList.join(',\n'));
 }
@@ -26,4 +26,5 @@ void main(List<String> arguments) {
   convertDataFile('basic_color_term_list');
   convertDataFile('web_color_list');
   convertDataFile('material_color_list');
+  convertDataFile('wikipedia_list_of_colors_list');
 }
