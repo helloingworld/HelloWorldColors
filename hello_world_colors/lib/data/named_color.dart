@@ -12,6 +12,8 @@ class NamedColor {
 
   String _toPercent(double value) => '${(value * 100).toStringAsFixed(0)}%';
 
+  String toRGBString() => 'rgb(${color.red}, ${color.green}, ${color.blue})';
+
   String toHSLString() {
     final HSLColor hslColor = HSLColor.fromColor(color);
     return 'hsl(${hslColor.hue.toStringAsFixed(0)}, ${_toPercent(hslColor.saturation)}, ${_toPercent(hslColor.lightness)})';
