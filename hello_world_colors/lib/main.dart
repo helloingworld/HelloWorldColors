@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Colors.white,
         primaryColor: Colors.white,
         accentColor: Colors.black,
+        // brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
 
         appBarTheme: const AppBarTheme(elevation: 0.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 
 class HelloColorScreen extends StatelessWidget {
@@ -29,11 +30,7 @@ class HelloColorScreen extends StatelessWidget {
         backgroundColor: namedColor.color,
         appBar: AppBar(
           title: Text(namedColor.name),
-          actions: [
-            // IconButton(
-            //   icon: const Icon(Icons.copy),
-            //   onPressed: () {},
-            // ),
+          actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.open_in_browser),
               onPressed: () {},
@@ -41,103 +38,35 @@ class HelloColorScreen extends StatelessWidget {
           ],
           bottom: const TabBar(
             tabs: <Tab>[
-              // Tab(text: 'Hello'),
-              // Tab(text: 'Info'),
               Tab(icon: Icon(Icons.language)),
               Tab(icon: Icon(Icons.info_outline)),
             ],
           ),
         ),
         body: TabBarView(
-          children: [
+          children: <Widget>[
             Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Text(
                   'Hello, World! I\'m',
                   style: Theme.of(context).textTheme.headline1.copyWith(
                         color: textColor,
                         fontSize: 34.0,
                       ),
+                  textAlign: TextAlign.center,
                 ),
                 Text(
                   namedColor.name,
                   style: Theme.of(context).textTheme.headline3.copyWith(color: textColor),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
             _ColorInfoList(namedColor: namedColor),
           ],
         ),
-
-        // Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: <Widget>[
-        //     // Text('Hello World 2', style: textTheme.headline4),
-        //     FittedBox(
-        //       fit: BoxFit.fitWidth,
-        //       child: Text(
-        //         'Hello, World!',
-        //         style: Theme.of(context).textTheme.headline1.copyWith(color: textColor),
-        //       ),
-        //     ),
-        //     FittedBox(
-        //       fit: BoxFit.fitWidth,
-        //       child: Text(
-        //         'I\'m ${namedColor.name}',
-        //         // style: Theme.of(context).textTheme.headline4.copyWith(color: textColor),
-        //         style: Theme.of(context).textTheme.headline1.copyWith(
-        //               color: textColor,
-        //               fontSize: Theme.of(context).textTheme.headline3.fontSize,
-        //             ),
-        //       ),
-        //     ),
-        //     const SizedBox(height: 32.0),
-        //     Text(
-        //       '${namedColor.toHexTriplet()}\n'
-        //       'rgb(${namedColor.color.red}, ${namedColor.color.green}, ${namedColor.color.blue})\n'
-        //       '${namedColor.toHSLString()}\n'
-        //       '${namedColor.toHSVString()}',
-        //       style: Theme.of(context).textTheme.headline1.copyWith(
-        //             color: textColor,
-        //             fontSize: Theme.of(context).textTheme.headline6.fontSize,
-        //           ),
-        //     ),
-        //     const SizedBox(height: 32.0),
-        //     // Text(
-        //     //   '${namedColor.color.computeLuminance().toStringAsFixed(4)} ($brightnessString)',
-        //     //   style: Theme.of(context).textTheme.headline1.copyWith(
-        //     //         color: textColor,
-        //     //         fontSize: Theme.of(context).textTheme.headline6.fontSize,
-        //     //       ),
-        //     // ),
-        //     Wrap(
-        //       crossAxisAlignment: WrapCrossAlignment.center,
-        //       children: <Widget>[
-        //         Icon(
-        //             brightness == Brightness.dark
-        //                 ? Icons.brightness_low
-        //                 : Icons.brightness_high,
-        //             color: textColor),
-        //         const SizedBox(width: 8.0),
-        //         Text(
-        //           // namedColor.color.computeLuminance().toStringAsFixed(4),
-        //           '${namedColor.color.computeLuminance().toStringAsFixed(4)} ($brightnessString)',
-        //           style: Theme.of(context).textTheme.headline1.copyWith(
-        //                 color: textColor,
-        //                 fontSize: Theme.of(context).textTheme.headline6.fontSize,
-        //               ),
-        //         ),
-        //       ],
-        //     ),
-        //     // Text(
-        //     //   'I\'m ${namedColor.name}',
-        //     //   style: Theme.of(context).textTheme.headline2.copyWith(color: textColor),
-        //     // ),
-        //   ],
-        // ),
       ),
     );
   }
@@ -150,12 +79,10 @@ class _ColorInfoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String brightnessString = namedColor.isDark ? 'dark' : 'light';
-
     final Color contrastColor = namedColor.isDark ? Colors.white : Colors.black;
+
     return ListTileTheme(
       textColor: contrastColor,
-      // iconColor: contrastColor.withOpacity(0.75),
       iconColor: contrastColor,
       child: TextButtonTheme(
         data: TextButtonThemeData(
@@ -167,18 +94,32 @@ class _ColorInfoList extends StatelessWidget {
           children: <Widget>[
             _ColorInfoListTile(
               info: namedColor.name,
-              subtitle: 'name',
+              description: 'name',
             ),
-            _ColorInfoListTile(info: namedColor.toHexTriplet(), subtitle: 'hex triplet'),
-            _ColorInfoListTile(info: namedColor.toRGBString(), subtitle: 'red, green, blue'),
             _ColorInfoListTile(
-                info: namedColor.toHSLString(), subtitle: 'hue, saturation, lightness'),
-            _ColorInfoListTile(info: namedColor.toHSVString(), subtitle: 'hue, saturation, value'),
+              info: namedColor.toHexTriplet(),
+              description: 'hex triplet',
+            ),
+            _ColorInfoListTile(
+              info: namedColor.toRGBString(),
+              description: 'red, green, blue',
+            ),
+            _ColorInfoListTile(
+              info: namedColor.toHSLString(),
+              description: 'hue, saturation, lightness',
+            ),
+            _ColorInfoListTile(
+              info: namedColor.toHSVString(),
+              description: 'hue, saturation, value',
+            ),
             _ColorInfoListTile(
               info: namedColor.color.computeLuminance().toStringAsFixed(4),
-              subtitle: 'relative luminance',
+              description: 'relative luminance',
             ),
-            _ColorInfoListTile(info: namedColor.isDark ? 'dark' : 'light', subtitle: 'brightness'),
+            _ColorInfoListTile(
+              info: namedColor.isDark ? 'dark' : 'light',
+              description: 'brightness',
+            ),
           ],
         ),
       ),
@@ -187,39 +128,30 @@ class _ColorInfoList extends StatelessWidget {
 }
 
 class _ColorInfoListTile extends StatelessWidget {
-  const _ColorInfoListTile({Key key, this.info, this.subtitle}) : super(key: key);
+  const _ColorInfoListTile({Key key, this.info, this.description}) : super(key: key);
 
   final String info;
-  final String subtitle;
+  final String description;
+
+  Future<void> onCopyPressed(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: info));
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('$info copied'),
+      // backgroundColor: Colors.white,
+      // behavior: SnackBarBehavior.floating,
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(info),
-      subtitle: Text(subtitle),
+      subtitle: Text(description),
       trailing: TextButton(
         child: const Text('copy'),
-        onPressed: () {},
+        onPressed: () => onCopyPressed(context),
       ),
-      // trailing: Wrap(
-      //   children: [
-      //     IconButton(
-      //       // iconSize: 20.0,
-      //       icon: const Icon(Icons.content_copy),
-      //       onPressed: () {},
-      //     ),
-      //     IconButton(
-      //       // iconSize: 20.0,
-      //       icon: const Icon(Icons.search),
-      //       onPressed: () {},
-      //     ),
-      //   ],
-      // ),
-
-      // trailing: IconButton(
-      //   icon: const Icon(Icons.content_copy),
-      //   onPressed: () {},
-      // ),
     );
   }
 }
