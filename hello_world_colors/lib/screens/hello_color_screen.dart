@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/utils/utils.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:hello_world_colors/widgets/color_info_list.dart';
 
 class HelloColorScreen extends StatelessWidget {
   const HelloColorScreen({
@@ -15,26 +15,14 @@ class HelloColorScreen extends StatelessWidget {
 
   Future<void> _onOpenInBrowserPressed(BuildContext context) async {
     final String colorComponent = Uri.encodeComponent(namedColor.color.toHexTriplet());
-    final String url = 'https://www.google.com/search?q=${colorComponent}';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Could not launch $url')));
-    }
+    final String url = 'https://www.google.com/search?q=$colorComponent';
+    launchUrl(context, url);
   }
 
   @override
   Widget build(BuildContext context) {
     final Brightness brightness = ThemeData.estimateBrightnessForColor(namedColor.color);
     final Color textColor = brightness == Brightness.light ? Colors.black : Colors.white;
-    final String brightnessString = brightness == Brightness.light ? 'light' : 'dark';
-
-    // final TextTheme textTheme = brightness == Brightness.light ? ThemeData
-    //     .light()
-    //     .textTheme :
-    // ThemeData
-    //     .dark()
-    //     .textTheme;
 
     return DefaultTabController(
       length: 2,
@@ -44,19 +32,16 @@ class HelloColorScreen extends StatelessWidget {
           title: Text(namedColor.name),
           actions: <Widget>[
             Builder(
+              // Create an inner BuildContext so that the onPressed methods can find the Scaffold
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(Icons.tab),
-                  tooltip: 'Open color in browser',
+                  // icon: const Icon(Icons.tab),
+                  icon: const Icon(Icons.open_in_browser),
+                  tooltip: 'Open color info in browser',
                   onPressed: () => _onOpenInBrowserPressed(context),
                 );
               },
             ),
-            // IconButton(
-            //   icon: const Icon(Icons.tab),
-            //   tooltip: 'Open color in browser',
-            //   onPressed: () => _onOpenInBrowserPressed(context),
-            // ),
           ],
           bottom: const TabBar(
             tabs: <Tab>[
@@ -86,7 +71,7 @@ class HelloColorScreen extends StatelessWidget {
                 ),
               ],
             ),
-            _ColorInfoList(namedColor: namedColor),
+            ColorInfoList(namedColor: namedColor),
           ],
         ),
       ),
@@ -94,87 +79,3 @@ class HelloColorScreen extends StatelessWidget {
   }
 }
 
-class _ColorInfoList extends StatelessWidget {
-  const _ColorInfoList({Key key, this.namedColor}) : super(key: key);
-
-  final NamedColor namedColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final Color contrastColor = namedColor.isDark ? Colors.white : Colors.black;
-
-    return ListTileTheme(
-      textColor: contrastColor,
-      iconColor: contrastColor,
-      child: TextButtonTheme(
-        data: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: contrastColor),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          shrinkWrap: true,
-          children: <Widget>[
-            _ColorInfoListTile(
-              info: namedColor.name,
-              description: 'name',
-            ),
-            _ColorInfoListTile(
-              info: namedColor.color.toHexTriplet(),
-              description: 'hex triplet',
-            ),
-            _ColorInfoListTile(
-              info: namedColor.color.toRGBString(),
-              // description: 'red, green, blue',
-              description: 'RGB',
-            ),
-            _ColorInfoListTile(
-              info: namedColor.color.toHSVString(),
-              // description: 'hue, saturation, value',
-              description: 'HSV',
-            ),
-            _ColorInfoListTile(
-              info: namedColor.color.toHSLString(),
-              // description: 'hue, saturation, lightness',
-              description: 'HSL',
-            ),
-            _ColorInfoListTile(
-              // info: namedColor.color.computeLuminance().toStringAsFixed(4),
-              info: namedColor.color.toLuminanceString(),
-              description: 'relative luminance',
-            ),
-            _ColorInfoListTile(
-              info: namedColor.color.toBrightnessString(),
-              description: 'brightness',
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ColorInfoListTile extends StatelessWidget {
-  const _ColorInfoListTile({Key key, this.info, this.description}) : super(key: key);
-
-  final String info;
-  final String description;
-
-  Future<void> onCopyPressed(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: info));
-    Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$info copied to the clipboard')));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(info),
-      subtitle: Text(description),
-      trailing: TextButton(
-        child: const Text('copy'),
-        onPressed: () => onCopyPressed(context),
-      ),
-    );
-  }
-}
