@@ -16,13 +16,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = ScrollController();
-  List<GlobalKey> _keys;
+  Map<ColorList, GlobalKey> _keys;
+
+  // List<GlobalKey> _keys;
 
   @override
   void initState() {
     super.initState();
 
-    _keys = List<GlobalKey>.generate(5, (int i) => GlobalKey());
+    _keys = <ColorList, GlobalKey>{for (ColorList item in ColorList.values) item: GlobalKey()};
+
+    // _keys = List<GlobalKey>.generate(5, (int i)i => GlobalKey());
 
     _scrollController = ScrollController();
     // _scrollController.addListener(() {
@@ -61,18 +65,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _onColorListPopupMenuItemSelected(ColorList list) {
+    Scrollable.ensureVisible(
+      _keys[list].currentContext,
+      duration: kThemeAnimationDuration,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_circle_down),
-            onPressed: () {
-              Scrollable.ensureVisible(_keys[4].currentContext, duration: kThemeAnimationDuration);
-            },
-          )
+          // IconButton(
+          //   icon: const Icon(Icons.arrow_circle_down),
+          //   onPressed: () {
+          //     Scrollable.ensureVisible(_keys[4].currentContext, duration: kThemeAnimationDuration);
+          //   },
+          // ),
+          PopupMenuButton<ColorList>(
+            icon: const Icon(Icons.list),
+            onSelected: _onColorListPopupMenuItemSelected,
+            itemBuilder: (BuildContext context) => ColorList.values
+                .map((ColorList item) => PopupMenuItem<ColorList>(
+                      value: item,
+                      child: Text(AppStrings.colorLists[item]),
+                    ))
+                .toList(),
+          ),
         ],
       ),
       // drawer: AppDrawer(
@@ -83,31 +104,31 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: <Widget>[
           _buildListTitle(AppStrings.colorLists[ColorList.basicColorTerms]),
           NamedColorSliverGrid(
-            key: _keys[0],
+            key: _keys[ColorList.basicColorTerms],
             namedColorList: kBasicColorTermList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.webColors]),
           NamedColorSliverGrid(
-            key: _keys[1],
+            key: _keys[ColorList.webColors],
             namedColorList: kWebColorList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.materialColors]),
           NamedColorSliverGrid(
-            key: _keys[2],
+            key: _keys[ColorList.materialColors],
             namedColorList: kMaterialColorList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.wikipediaListOfColors]),
           NamedColorSliverGrid(
-            key: _keys[3],
+            key: _keys[ColorList.wikipediaListOfColors],
             namedColorList: kWikipediaListOfColorsList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.trueColor]),
           TrueColorSliverGrid(
-            key: _keys[4],
+            key: _keys[ColorList.trueColor],
             onItemSelected: _onItemSelected,
           ),
         ],
