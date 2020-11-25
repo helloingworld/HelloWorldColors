@@ -59,8 +59,8 @@ class TrueColorSliverGrid extends StatelessWidget {
       gridDelegate: NamedColorSliverGrid.standardSliverGridDelegate(context),
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          // final Color color = Color(0xFF000000 + index);
-          final Color color = Color(0xFF000000 + _random.nextInt(0x1000000));
+          final Color color = Color(0xFF000000 + index);
+          // final Color color = Color(0xFF000000 + _random.nextInt(0x1000000));
           final bool isDark = ThemeData.estimateBrightnessForColor(color) == Brightness.dark;
           return _ColorGridTile(
             namedColor: NamedColor(name: color.toHexTriplet(), color: color, isDark: isDark),

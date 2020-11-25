@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
 import 'package:hello_world_colors/data/basic_color_term_list.dart';
@@ -7,7 +9,12 @@ import 'package:hello_world_colors/data/named_color.dart';
 import 'package:hello_world_colors/data/web_color_list.dart';
 import 'package:hello_world_colors/data/wikipedia_list_of_colors_list.dart';
 import 'package:hello_world_colors/screens/hello_color_screen.dart';
+import 'package:hello_world_colors/utils/utils.dart';
 import 'package:hello_world_colors/widgets/color_sliver_grid.dart';
+
+/// Overflow menu items enumeration.
+// enum OverflowMenuItem { settings, help, rate }
+enum OverflowMenuItem { help, rate }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  /// The AppBar's action needs this key to find its own Scaffold.
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   ScrollController _scrollController = ScrollController();
   Map<ColorList, GlobalKey> _keys;
 
@@ -68,31 +78,63 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onColorListPopupMenuItemSelected(ColorList list) {
     Scrollable.ensureVisible(
       _keys[list].currentContext,
+      // curve: Curves.fastOutSlowIn,
+      // curve: Curves.linear,
+      curve: Curves.decelerate,
       duration: kThemeAnimationDuration,
+      // duration: const Duration(milliseconds: 500),
     );
+  }
+
+  void _onOverflowMenuItemSelected(OverflowMenuItem item) {
+    switch (item) {
+      // case OverflowMenuItem.settings:
+      //   break;
+      case OverflowMenuItem.help:
+        // Launch the app online help url
+        launchUrl(_scaffoldKey.currentState, AppStrings.helpURL);
+        break;
+      case OverflowMenuItem.rate:
+        // Launch the Google Play Store page to allow the user to rate the app
+        launchUrl(_scaffoldKey.currentState, AppStrings.rateAppURL);
+        break;
+    }
+  }
+
+  /// Builds the popup menu items for the app bar.
+  List<PopupMenuItem<OverflowMenuItem>> _buildOverflowItems(BuildContext context) {
+    return OverflowMenuItem.values
+        .map(
+          (OverflowMenuItem item) => PopupMenuItem<OverflowMenuItem>(
+            value: item,
+            child: Text(AppStrings.overflowItems[item]),
+          ),
+        )
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text(AppStrings.appName),
-        actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.arrow_circle_down),
-          //   onPressed: () {
-          //     Scrollable.ensureVisible(_keys[4].currentContext, duration: kThemeAnimationDuration);
-          //   },
-          // ),
+        actions: <Widget>[
           PopupMenuButton<ColorList>(
-            icon: const Icon(Icons.list),
+            icon: const Icon(Icons.arrow_circle_down),
             onSelected: _onColorListPopupMenuItemSelected,
             itemBuilder: (BuildContext context) => ColorList.values
-                .map((ColorList item) => PopupMenuItem<ColorList>(
-                      value: item,
-                      child: Text(AppStrings.colorLists[item]),
-                    ))
+                .map(
+                  (ColorList item) => PopupMenuItem<ColorList>(
+                    value: item,
+                    child: Text(AppStrings.colorLists[item]),
+                  ),
+                )
                 .toList(),
+          ),
+          PopupMenuButton<OverflowMenuItem>(
+            onSelected: _onOverflowMenuItemSelected,
+            itemBuilder: _buildOverflowItems,
           ),
         ],
       ),

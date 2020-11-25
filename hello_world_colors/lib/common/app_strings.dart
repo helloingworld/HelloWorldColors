@@ -1,4 +1,5 @@
 import 'package:hello_world_colors/data/color_list.dart';
+import 'package:hello_world_colors/screens/home_screen.dart';
 import 'package:hello_world_colors/widgets/app_drawer.dart';
 
 class AppStrings {
@@ -13,6 +14,12 @@ class AppStrings {
     ColorList.trueColor: 'Random True Colors',
   };
 
+  static const Map<OverflowMenuItem, String> overflowItems = <OverflowMenuItem, String>{
+    // OverflowMenuItem.settings: 'Settings',
+    OverflowMenuItem.rate: 'Rate app',
+    OverflowMenuItem.help: 'Help',
+  };
+
   static const Map<ExtraDrawerItem, String> extraDrawerItems = <ExtraDrawerItem, String>{
     ExtraDrawerItem.settings: 'Settings',
   };
@@ -21,4 +28,9 @@ class AppStrings {
   static const String basicWebColorsDrawerItem = 'Basic Web Colors';
   static const String webColorsDrawerItem = 'Web Colors';
   static const String materialColorsDrawerItem = 'Material Colors';
+
+  static const String rateAppURL =
+      'https://play.google.com/store/apps/details?id=com.thehellomaker.heyworldcolors';
+
+  static const String helpURL = 'https://helloing.world/helloworldcolors/';
 }
