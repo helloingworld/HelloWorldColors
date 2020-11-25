@@ -15,6 +15,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController _scrollController = ScrollController();
+  List<GlobalKey> _keys;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _keys = List<GlobalKey>.generate(5, (int i) => GlobalKey());
+
+    _scrollController = ScrollController();
+    // _scrollController.addListener(() {
+    //   print(_scrollController.position.context.axisDirection);
+    // });
+  }
+
   // void _onMainDrawerItemSelected(MainDrawerItem item) {
   //   setState(() {
   //     switch (item) {
@@ -51,34 +66,48 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_circle_down),
+            onPressed: () {
+              Scrollable.ensureVisible(_keys[4].currentContext, duration: kThemeAnimationDuration);
+            },
+          )
+        ],
       ),
       // drawer: AppDrawer(
       //   onMainItemSelected: _onMainDrawerItemSelected,
       // ),
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: <Widget>[
           _buildListTitle(AppStrings.colorLists[ColorList.basicColorTerms]),
           NamedColorSliverGrid(
+            key: _keys[0],
             namedColorList: kBasicColorTermList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.webColors]),
           NamedColorSliverGrid(
+            key: _keys[1],
             namedColorList: kWebColorList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.materialColors]),
           NamedColorSliverGrid(
+            key: _keys[2],
             namedColorList: kMaterialColorList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.wikipediaListOfColors]),
           NamedColorSliverGrid(
+            key: _keys[3],
             namedColorList: kWikipediaListOfColorsList,
             onItemSelected: _onItemSelected,
           ),
           _buildListTitle(AppStrings.colorLists[ColorList.trueColor]),
           TrueColorSliverGrid(
+            key: _keys[4],
             onItemSelected: _onItemSelected,
           ),
         ],

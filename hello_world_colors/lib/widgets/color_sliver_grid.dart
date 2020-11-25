@@ -18,6 +18,7 @@ class NamedColorSliverGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print('key $key');
     return SliverGrid(
       gridDelegate: standardSliverGridDelegate(context),
       delegate: SliverChildBuilderDelegate(
