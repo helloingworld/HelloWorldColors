@@ -1,5 +1,7 @@
 // import 'dart:html';
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hello_world_colors/common/app_strings.dart';
 import 'package:hello_world_colors/data/basic_color_term_list.dart';
@@ -22,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final Random _random = Random();
+
   /// The AppBar's action needs this key to find its own Scaffold.
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -39,8 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // _keys = List<GlobalKey>.generate(5, (int i)i => GlobalKey());
 
     _scrollController = ScrollController();
+
     // _scrollController.addListener(() {
-    //   print(_scrollController.position.context.axisDirection);
+    //   print('maxScrollExtent: ${_scrollController.position.maxScrollExtent} pixels: ${_scrollController.position.pixels}');
     // });
   }
 
@@ -174,6 +179,18 @@ class _HomeScreenState extends State<HomeScreen> {
             onItemSelected: _onItemSelected,
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.shuffle),
+        onPressed: () {
+          // _scrollController.jumpTo(
+          //     _random.nextInt(_scrollController.position.maxScrollExtent.toInt()).toDouble());
+          _scrollController.animateTo(
+            _random.nextInt(_scrollController.position.maxScrollExtent.toInt()).toDouble(),
+            duration: kThemeAnimationDuration,
+            curve: Curves.decelerate,
+          );
+        },
       ),
     );
   }
