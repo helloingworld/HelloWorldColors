@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hello_world_colors/data/named_color.dart';
+import 'package:hello_world_colors/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelloColorScreen extends StatelessWidget {
   const HelloColorScreen({
@@ -10,6 +12,16 @@ class HelloColorScreen extends StatelessWidget {
         super(key: key);
 
   final NamedColor namedColor;
+
+  Future<void> _onOpenInBrowserPressed(BuildContext context) async {
+    final String colorComponent = Uri.encodeComponent(namedColor.color.toHexTriplet());
+    final String url = 'https://www.google.com/search?q=${colorComponent}';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Could not launch $url')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +43,20 @@ class HelloColorScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(namedColor.name),
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.open_in_browser),
-              onPressed: () {},
+            Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.tab),
+                  tooltip: 'Open color in browser',
+                  onPressed: () => _onOpenInBrowserPressed(context),
+                );
+              },
             ),
+            // IconButton(
+            //   icon: const Icon(Icons.tab),
+            //   tooltip: 'Open color in browser',
+            //   onPressed: () => _onOpenInBrowserPressed(context),
+            // ),
           ],
           bottom: const TabBar(
             tabs: <Tab>[
@@ -97,27 +119,31 @@ class _ColorInfoList extends StatelessWidget {
               description: 'name',
             ),
             _ColorInfoListTile(
-              info: namedColor.toHexTriplet(),
+              info: namedColor.color.toHexTriplet(),
               description: 'hex triplet',
             ),
             _ColorInfoListTile(
-              info: namedColor.toRGBString(),
-              description: 'red, green, blue',
+              info: namedColor.color.toRGBString(),
+              // description: 'red, green, blue',
+              description: 'RGB',
             ),
             _ColorInfoListTile(
-              info: namedColor.toHSLString(),
-              description: 'hue, saturation, lightness',
+              info: namedColor.color.toHSVString(),
+              // description: 'hue, saturation, value',
+              description: 'HSV',
             ),
             _ColorInfoListTile(
-              info: namedColor.toHSVString(),
-              description: 'hue, saturation, value',
+              info: namedColor.color.toHSLString(),
+              // description: 'hue, saturation, lightness',
+              description: 'HSL',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.computeLuminance().toStringAsFixed(4),
+              // info: namedColor.color.computeLuminance().toStringAsFixed(4),
+              info: namedColor.color.toLuminanceString(),
               description: 'relative luminance',
             ),
             _ColorInfoListTile(
-              info: namedColor.isDark ? 'dark' : 'light',
+              info: namedColor.color.toBrightnessString(),
               description: 'brightness',
             ),
           ],
@@ -135,12 +161,9 @@ class _ColorInfoListTile extends StatelessWidget {
 
   Future<void> onCopyPressed(BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: info));
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('$info copied'),
-      // backgroundColor: Colors.white,
-      // behavior: SnackBarBehavior.floating,
-      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-    ));
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('$info copied to the clipboard')));
   }
 
   @override
