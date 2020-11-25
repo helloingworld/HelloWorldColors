@@ -71,11 +71,14 @@ class HelloColorScreen extends StatelessWidget {
                 ),
               ],
             ),
-            ColorInfoList(namedColor: namedColor),
+            ColorInfoList(
+              color: namedColor.color,
+              colorName: namedColor.name,
+              textColor: textColor,
+            ),
           ],
         ),
       ),
     );
   }
 }
-

@@ -1,54 +1,57 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hello_world_colors/data/named_color.dart';
-import 'package:hello_world_colors/utils/utils.dart';
 
 class ColorInfoList extends StatelessWidget {
-  const ColorInfoList({Key key, this.namedColor}) : super(key: key);
+  const ColorInfoList({
+    Key key,
+    @required this.color,
+    this.colorName,
+    this.textColor,
+  }) : super(key: key);
 
-  final NamedColor namedColor;
+  final Color color;
+  final String colorName;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
-    final Color contrastColor = namedColor.isDark ? Colors.white : Colors.black;
-
     return ListTileTheme(
-      textColor: contrastColor,
-      iconColor: contrastColor,
+      textColor: textColor,
       child: TextButtonTheme(
         data: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: contrastColor),
+          style: TextButton.styleFrom(primary: textColor),
         ),
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           shrinkWrap: true,
           children: <Widget>[
             _ColorInfoListTile(
-              info: namedColor.name,
+              info: colorName,
               description: 'name',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toHexTriplet(),
+              info: color.toHexTriplet(),
               description: 'hex triplet',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toRGBString(),
+              info: color.toRGBString(),
               description: 'red, green, blue',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toHSVString(),
+              info: color.toHSVString(),
               description: 'hue, saturation, value',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toHSLString(),
+              info: color.toHSLString(),
               description: 'hue, saturation, lightness',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toLuminanceString(),
+              info: color.toLuminanceString(),
               description: 'relative luminance',
             ),
             _ColorInfoListTile(
-              info: namedColor.color.toBrightnessString(),
+              info: color.toBrightnessString(),
               description: 'brightness',
             ),
           ],
@@ -66,7 +69,9 @@ class _ColorInfoListTile extends StatelessWidget {
 
   Future<void> onCopyPressed(BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: info));
-    showSnackBar(context, '$info copied to the clipboard');
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('$info copied to clipboard')));
   }
 
   @override
@@ -80,4 +85,26 @@ class _ColorInfoListTile extends StatelessWidget {
       ),
     );
   }
+}
+
+extension on Color {
+  String toHexTriplet() => '#${(value & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
+
+  String toRGBString() => 'rgb($red, $green, $blue)';
+
+  String _toPercent(double value) => '${(value * 100).toStringAsFixed(0)}%';
+
+  String toHSLString() {
+    final HSLColor hslColor = HSLColor.fromColor(this);
+    return 'hsl(${hslColor.hue.toStringAsFixed(0)}, ${_toPercent(hslColor.saturation)}, ${_toPercent(hslColor.lightness)})';
+  }
+
+  String toHSVString() {
+    final HSVColor hsvColor = HSVColor.fromColor(this);
+    return 'hsv(${hsvColor.hue.toStringAsFixed(0)}, ${_toPercent(hsvColor.saturation)}, ${_toPercent(hsvColor.value)})';
+  }
+
+  String toLuminanceString() => computeLuminance().toStringAsFixed(5);
+
+  String toBrightnessString() => describeEnum(ThemeData.estimateBrightnessForColor(this));
 }
